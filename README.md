@@ -1,5 +1,16 @@
-<img src="static/img/motionverse.png" align="center">
+<h1 align="center">MOTIONVERSE</h1>
 
+<div align="center">
+  <img src="static/img/motionverse.png" width="400">
+</div>
+
+<div id="badges" align="center" width="100">
+  <a href="https://www.linkedin.com/in/pablo-jes%C3%BAs-castellanos-compa%C3%B1a/" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge" />
+  </a>
+</div>
+
+<br>
 
 # Descripción
 
