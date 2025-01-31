@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset='utf-8'>
+            <link rel="stylesheet" href="{{STATIC_URL}}css/uikit.min.css" />
+            <script src="{{STATIC_URL}}js/jquery.min.js"></script>
+            <script src="{{STATIC_URL}}js/uikit.min.js"></script>
+            <style>
+                body {
+                    background-image: url('{% static "img/pantalla-cine.png" %}');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-attachment: fixed;
+                    background-position: center;
+                    margin: 0;
+                    height: 100vh;
+                }
+                html {
+                    height: 100%;
+                    overflow-x: hidden;
+                }
+            </style>
+    </head>
+    <body style="font-family: Arial, sans-serif;">
+
+        <nav class="uk-navbar-container" uk-navbar, style="background-color:rgb(137, 44, 44);">
+            <div class="uk-navbar-left" style=" display:flex; flex-direction:column; justify-content: center">
+                <ul class="uk-navbar-nav">
+                    <a href="/">
+                        <h1 style="color:white; font-size: 60px;">MotionVerse</h1> 
+                    </a>
+                </ul>
+            </div>
+        </nav>
+
+        <h1 style="text-align: center; color:white">Buscar entre dos años</h1>
+
+        
+        <form method="POST" style="text-align: center; margin-bottom: 20px;">
+            {% csrf_token %}
+            <label for="año_fin" style="color:white">Año de inicio:</label>
+            <input type="text" id="año_inicio" name="año_inicio" placeholder="Escribe el primer año" required  style="padding: 10px; width: 300px; font-size: 16px;">
+
+            <label for="año_fin" style="color:white">Año de fin:</label>
+            <input type="text" id="año_fin" name="año_fin" placeholder="Escribe el segundo año" required  style="padding: 10px; width: 300px; font-size: 16px;">
+
+            <button type="submit" style="padding: 10px 20px; font-size: 18px; background-color: rgb(137, 44, 44); color: white; border: none; cursor: pointer;">
+                Buscar
+            </button>
+            <a href="/mostrar_peliculas/" style="padding: 10px 20px; font-size: 18px; background-color: rgb(137, 44, 44); color: white; border: none; cursor: pointer; text-decoration: none; display: inline-block; height: 22px;">
+                Volver
+            </a>
+        </form>
+
+        {% if resultados is not None %}
+            {% if resultados %}
+                <div style="overflow-y: auto; max-height: 950px; margin-left: 100px; margin-right: 100px;">
+                    <table border="1" style="color: white; font-size: 18px; width: 100%;background-color: rgba(0, 0, 0, 0.57);">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Sinopsis</th>
+                                <th>Director</th>
+                                <th>Productor</th>
+                                <th>Guionista</th>
+                                <th>Calificación por edades</th>
+                                <th>Fecha</th>
+                                <th>Duración (minutos)</th>
+                                <th>Calificación Crítica</th>
+                                <th>Calificación Usuarios</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pelicula in resultados %} 
+                                <tr>
+                                    <td>{{ pelicula.titulo }}</td>
+                                    <td>{{ pelicula.sinopsis }}</td>
+                                    <td>{{ pelicula.director }}</td>
+                                    <td>{{ pelicula.productor }}</td>
+                                    <td>{{ pelicula.guionista }}</td>
+                                    <td>{{ pelicula.edad }}</td>
+                                    <td>{{ pelicula.fecha|date:"M d, Y" }}</td>
+                                    <td>{{ pelicula.duracion }}</td>
+                                    <td>{{ pelicula.calificacion_critica }}%</td>
+                                    <td>{{ pelicula.calificacion_publico }}%</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% elif mensaje is not None %}
+                <p style="text-align: center; color: red; font-size:25px">No se encontraron resultados entre esos años. {{mensaje}}</p>
+            {% endif %}
+        {% endif %}
+
+        <style>
+             
+            div[style*="overflow-y: auto;"]::-webkit-scrollbar {
+                width: 12px;
+            }
+    
+            div[style*="overflow-y: auto;"]::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.57);
+            }
+    
+            div[style*="overflow-y: auto;"]::-webkit-scrollbar-thumb {
+                background-color: #888;
+                border-radius: 10px;
+                border: 3px solid rgba(0, 0, 0, 0.57);
+            }
+    
+            div[style*="overflow-y: auto;"]::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            
+             
+            div[style*="overflow-x: auto;"]::-webkit-scrollbar {
+                height: 8px;
+            }
+    
+            div[style*="overflow-x: auto;"]::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.57);
+            }
+    
+            div[style*="overflow-x: auto;"]::-webkit-scrollbar-thumb {
+                background-color: #888;
+                border-radius: 10px;
+                border: 2px solid rgba(0, 0, 0, 0.57);
+            }
+    
+            div[style*="overflow-x: auto;"]::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        </style>    
+    </body>
+</html>
+

@@ -1,0 +1,155 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles de la Película</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/uikit.min.css">
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/uikit.min.js"></script>
+    <style>
+        body {
+            background-image: url('{% if pelicula.titulo == "Spider-Man: Into the Spider-Verse" %}{% static "img/SpiderVerse.png" %}{% elif pelicula.titulo == "Spider-Man: Across the Spider-Verse" %}{% static "img/GwenMiles.jpg" %}{% elif pelicula.titulo == "The Wild Robot" %}{% static "img/twr.jpg" %}{% elif pelicula.titulo == "The LEGO Batman Movie" %}{% static "img/tlmbatman.png" %}{% elif pelicula.titulo == "The Peanuts Movie" %}{% static "img/peanuts.jpg" %}{% elif pelicula.titulo == "Despicable Me" %}{% static "img/minion.jpg" %}{% elif pelicula.titulo == "The LEGO Movie" %}{% static "img/tlm.jpg" %}{% else %}{% static "img/pantalla-cine.png" %}{% endif %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0;
+            height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        html {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.57);
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+
+        }
+        .calificaciones {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 25px;
+        }
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .poster {
+            flex: 1;
+            max-width: 300px;
+            margin-right: 25px;
+        }
+        .info {
+            flex: 2;
+        }
+        .info table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 22px;
+        }
+        .info th, .info td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid white;
+            font-size: 22px;
+        }
+        .boton-volver {
+            margin-top: 30px;
+            font-size: 16px;
+            text-decoration: none;
+            color: white;
+            background-color: rgb(137, 44, 44);
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="uk-navbar-container" uk-navbar, style="background-color:rgb(137, 44, 44);">
+        <div class="uk-navbar-left" style=" display:flex; flex-direction:column; justify-content: center">
+            <ul class="uk-navbar-nav">
+                <a href="/">
+                    <h1 style="color:white; font-size: 60px;">MotionVerse</h1> 
+                </a>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="title"><u>{{ pelicula.titulo }}</u></h1>
+        <div class="details">
+            <div class="poster">
+                {% if pelicula.foto %}
+                    <img src="{{ pelicula.foto }}" alt="Poster de {{ pelicula.titulo }}" style="width: 100%; height: auto;">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+
+                <div class="calificaciones">
+                    <p><strong>Calificación Crítica:</strong> <span style="color: red;">{{ pelicula.calificacion_critica }}%</span></p>
+                    <p><strong>Calificación Usuarios:</strong> <span style="color: red;">{{ pelicula.calificacion_publico }}%</span></p>
+                </div>
+            </div>
+            <div class="info">
+                <table>
+                    <tr>
+                        <th>Sinopsis:</th>
+                        <td>{{ pelicula.sinopsis }}</td>
+                    </tr>
+                    <tr>
+                        <th>Director:</th>
+                        <td>{{ pelicula.director }}</td>
+                    </tr>
+                    <tr>
+                        <th>Productor:</th>
+                        <td>{{ pelicula.productor }}</td>
+                    </tr>
+                    <tr>
+                        <th>Guionista:</th>
+                        <td>{{ pelicula.guionista }}</td>
+                    </tr>
+                    <tr>
+                        <th>Calificación por edades:</th>
+                        <td>{{ pelicula.edad }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de estreno:</th>
+                        <td>{{ pelicula.fecha|date:"M d, Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Duración:</th>
+                        <td>{{ pelicula.duracion }} minutos</td>
+                    </tr>
+                    <tr>
+                        <th>Géneros:</th>
+                        <td>
+                            {% for genero in pelicula.generos.all %}
+                                {{ genero.genero }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="text-align: center; ">
+            <a class="boton-volver" href="{% url 'mostrar_peliculas' %}" style="text-decoration: none; color: white; background-color: rgb(137, 44, 44); padding: 10px 20px; border: none;">Volver</a>
+        </div>
+    </div>
+</body>
+</html>

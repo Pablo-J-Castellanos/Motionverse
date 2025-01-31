@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="{{STATIC_URL}}css/uikit.min.css" />
+    <script src="{{STATIC_URL}}js/jquery.min.js"></script>
+    <script src="{{STATIC_URL}}js/uikit.min.js"></script>
+    <style>
+        body {
+            background-image: url('{% static "img/pantalla-cine.png" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0;
+            min-height: 100vh;
+        }
+        html {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        .container {
+            min-height: 100vh; /* Asegura que el contenedor tenga al menos el alto de la ventana */
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1; /* Hace que la tabla crezca dinámicamente */
+        }
+        .table-container {
+            overflow-y: auto;
+            max-height: 70vh; /* Limita la altura máxima del contenedor */
+            margin: 20px 100px;
+            background-color: rgba(0, 0, 0, 0.57);
+        }
+    </style>
+</head>
+<body style="font-family: Arial, sans-serif;">
+    <div class="container">
+        <nav class="uk-navbar-container" uk-navbar style="background-color:rgb(137, 44, 44);">
+            <div class="uk-navbar-center">
+            <a href="/">
+                <h1 style="color:white; font-size: 60px; text-align: center;">MotionVerse</h1>
+            </a>
+            </div>
+        </nav>
+
+        <div class="content">
+            <h1 style="text-align: center; color: white; margin-top:30px">Eliminar Series por Calificación</h1>
+            <form method="post" style="text-align: center; margin-bottom: 20px;">
+                {% csrf_token %}
+                <input type="text" name="calificacion" placeholder="Calificación mínima" style="padding: 10px; width: 200px; font-size: 16px;">
+                <button type="submit" style="padding: 10px 20px; font-size: 18px; background-color: rgb(137, 44, 44); color: white; border: none; cursor: pointer;">
+                    Eliminar Series
+                </button>
+                <a href="/mostrar_series/" style="padding: 10px 20px; font-size: 18px; background-color: rgb(137, 44, 44); color: white; border: none; cursor: pointer; text-decoration: none;">
+                    Volver
+                </a>
+            </form>
+
+            {% if series_eliminadas %}
+                <h2 style="text-align: center; color: white;">Series Eliminadas</h2>
+                <div class="table-container">
+                    <table border="1" style="color: white; font-size: 18px; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Sinopsis</th>
+                                <th>Calificación</th>
+                                <th>Fecha</th>
+                                <th>Género(s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for serie in series_eliminadas %}
+                                <tr>
+                                    <td>{{ serie.titulo }}</td>
+                                    <td>{{ serie.sinopsis }}</td>
+                                    <td>{{ serie.calificacion }}%</td>
+                                    <td>{{ serie.fecha|date:"M d, Y" }}</td>
+                                    <td>{{ serie.genero }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        div.table-container::-webkit-scrollbar {
+            width: 12px;
+        }
+    
+        div.table-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.57);
+        }
+    
+        div.table-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 10px;
+            border: 3px solid rgba(0, 0, 0, 0.57);
+        }
+    
+        div.table-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    
+        div.table-container::-webkit-scrollbar-horizontal {
+            height: 8px;
+        }
+    
+        div.table-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 10px;
+            border: 2px solid rgba(0, 0, 0, 0.57);
+        }
+    
+        div.table-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+        
+</body>
+</html>

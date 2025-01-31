@@ -1,0 +1,157 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles de la Serie</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/uikit.min.css">
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/uikit.min.js"></script>
+    <style>
+        body {
+            background-image: url('{% if serie.titulo == "Arcane: League of Legends" %}{% static "img/arcane.jpeg" %}{% elif serie.titulo == "Cyberpunk: Edgerunners" %}{% static "img/cyberpunk.jpg" %}{% elif serie.titulo == "Better Call Saul" %}{% static "img/bcs.jpg" %}{% elif serie.titulo == "Stranger Things" %}{% static "img/stranger_things.jpg" %}{% elif serie.titulo == "The Flash" %}{% static "img/theflash.jpg" %}{% else %}{% static "img/pantalla-cine.png" %}{% endif %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0;
+            height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        html {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.57);
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        .calificaciones {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 25px;
+        }
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .poster {
+            flex: 1;
+            max-width: 300px;
+            margin-right: 25px;
+        }
+        .info {
+            flex: 2;
+        }
+        .info table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 22px;
+        }
+        .info th, .info td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid white;
+            font-size: 22px;
+        }
+        .boton-volver {
+            margin-top: 30px;
+            font-size: 16px;
+            text-decoration: none;
+            color: white;
+            background-color: rgb(137, 44, 44);
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="uk-navbar-container" uk-navbar, style="background-color:rgb(137, 44, 44);">
+        <div class="uk-navbar-left" style=" display:flex; flex-direction:column; justify-content: center">
+            <ul class="uk-navbar-nav">
+                <a href="/">
+                    <h1 style="color:white; font-size: 60px;">MotionVerse</h1> 
+                </a>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="title" style="{% if serie.titulo == 'Arcane: League of Legends' %}color: #0093dc;{% endif %}"><u>{{ serie.titulo }}</u></h1>
+        <div class="details">
+            <div class="poster">
+                {% if serie.foto %}
+                    <img src="{{ serie.foto }}" alt="Poster de {{ serie.titulo }}" style="width: 100%; height: auto;">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+
+                <div class="calificaciones">
+                    <p><strong>Calificación Crítica:</strong> <span style="color: {% if serie.titulo == 'Arcane: League of Legends' %}#c03c49{% else %}red{% endif %};">{{ serie.calificacion }}%</span></p>
+                </div>
+            </div>
+            <div class="info">
+                <table>
+                    <tr>
+                        <th>Sinopsis:</th>
+                        <td>{{ serie.sinopsis }}</td>
+                    </tr>
+                    <tr>
+                        <th>Director:</th>
+                        <td>{{ serie.director }}</td>
+                    </tr>
+                    <tr>
+                        <th>Creador:</th>
+                        <td>{{ serie.creator }}</td>
+                    </tr>
+                    <tr>
+                        <th>Guionista:</th>
+                        <td>{{ serie.screenwriter }}</td>
+                    </tr>
+                    <tr>
+                        <th>Productor:</th>
+                        <td>{{ serie.producer }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cadena:</th>
+                        <td>{{ serie.network }}</td>
+                    </tr>
+                    <tr>
+                        <th>Calificación por edades:</th>
+                        <td>{{ serie.rating }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de estreno:</th>
+                        <td>{{ serie.fecha|date:"M d, Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Idioma:</th>
+                        <td>{{ serie.language }}</td>
+                    </tr>
+                    <tr>
+                        <th>Género(s):</th>
+                        <td>{{ serie.genero }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a class="boton-volver" href="{% url 'mostrar_series' %}" style="text-decoration: none; color: white; background-color: rgb(137, 44, 44); padding: 10px 20px; border: none;">Volver</a>
+        </div>
+    </div>
+</body>
+</html>
